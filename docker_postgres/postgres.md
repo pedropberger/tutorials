@@ -113,6 +113,9 @@ Clique em "Save" para adicionar o servidor.
 Acesse o servidor:
 Após salvar as configurações, você verá o servidor listado no painel esquerdo do PgAdmin. Clique nele para expandir e visualizar os bancos de dados e outras informações do servidor PostgreSQL.
 
+![image](https://github.com/pedropberger/tutorials/assets/98188778/fcb813b9-db11-420f-8f21-4a2f29fff688)
+
+
 Certifique-se de que as informações fornecidas no PgAdmin correspondam às configurações definidas em seu arquivo docker-compose.yml para o serviço PostgreSQL. Isso inclui nome do host, porta, nome de usuário, senha e nome do banco de dados. E se for rodar em produção, sempre proteja as credenciais!
 
 Próximo passo? Que tal aprender a conectar o Airflow a esse banco?
