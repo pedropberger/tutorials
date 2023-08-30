@@ -1,9 +1,10 @@
-Seja para rodar sua aplicação de forma isolada, seja para poder errar, seja para evitar instalar um monte de coisa no seu computador que não conseguirá gerir depois, rodar o seu servidor Postgres em um container docker são muitas. Mas é bem fácil de errar e ter dor de cabeça, eu mesmo na primeira vez que me propus a rodar esse conteiner achava que seria simples como instalar o SQL Server no seu PC ou na nuvem do Azure, mas não foi. O lado bom é que já venci esse problema e deixei aqui o docker-compose prontinho para rodar.
+Seja para rodar sua aplicação de forma isolada, seja para poder errar, seja para evitar instalar um monte de coisa no seu computador que não conseguirá gerir depois, as vantagens de rodar o seu servidor Postgres em um container docker são muitas. Mas é bem fácil de errar e ter dor de cabeça na hora de implementar, eu mesmo na primeira vez que me propus a rodar esse conteiner achava que seria simples como instalar o SQL Server no seu PC ou na nuvem do Azure, mas não foi. O lado bom é que já venci esse problema e deixei aqui o docker-compose prontinho para quem quiser rodar.
 
 # Pré requisitos para esse tutorial
  - Docker instalado
+ - Conceitos básicos de Docker para ciência de dados
 
-# Vantagens e stuff interessante: 
+# Vantagens: 
 
 Um container docker é uma forma de isolar um ambiente de software, garantindo que ele funcione da mesma maneira em qualquer máquina. Um postgres é um sistema gerenciador de banco de dados relacional, muito usado em aplicações web e análise de dados. Juntos, eles podem facilitar o aprendizado e o desenvolvimento de projetos de ciência de dados.
 
@@ -14,7 +15,13 @@ Algumas das vantagens de usar um container docker com postgres são:
 - Segurança e isolamento: o container docker cria uma camada de segurança entre o seu banco de dados e o sistema operacional, evitando que possíveis ataques ou erros afetem o seu trabalho. Além disso, o container docker permite que você crie redes isoladas para conectar o seu banco de dados com outras aplicações, como notebooks ou dashboards.
 - Flexibilidade e escalabilidade: o container docker permite que você ajuste os recursos do seu banco de dados de acordo com a sua necessidade, como memória, CPU e armazenamento. Você também pode criar vários containers para distribuir a carga ou testar diferentes versões do postgres.
 
-Chega de bla-bla-bla e vamos ao ponto:
+Chega de bla-bla-bla e vamos ao ponto.
+
+# Passo-a-passo
+
+Primeira coisa é escolher o local. Para facilicar uma migração futura, updates, ou matar e ressuscitar seu conteiner quantas vezes precisar, sem perder seu bem mais precisos (os dados!), sempre opto por criar um volume compartilhado. Esse volume espelha na máquina local o diretório do container (para quem ta começando no docker tem detalhes aqui), e configuro um cronjob para fazer um backup de tempos em tempos na máquina local. Em ambiente de produção acho mais interessante criar um storage do docker, mas vai do gosto de cada um.
+
+Copie o código abaixo e salve em um arquivo com o nome 'docker-compose.yaml', ou faça o download aqui, e salve no diretório escolhido.
 
 ~~~yaml
 
@@ -52,17 +59,36 @@ networks:
 
 ~~~
 
+Agora é só para botar para funcionar. Abra o CMD ou Shell de sua escolha, vá ao diretório em que está o código e digite:
+
+~~~cmd
+docker-compose up
+~~~
+
+Daí é só aguardar a mágica acontecer.
+
+![image](https://github.com/pedropberger/tutorials/assets/98188778/71cead1b-ebe8-4dc7-8525-e5ca7296b0f3)
+
+E voilà! Seus conteiners estarão online e você poderá acessar o PgAdmin 4 digitando http://localhost:4321 em seu navegador, ou http://ip_da_maquina_host:4321 (obviamente substituindo o ip_da_maquina_host pelo respectivo IP).
+
 # Registrando o banco
+
+Show, ta rodando, mas e agora?
+
+Agora você precisa registar seu servidor PostgreSQL no PgAdmin. O PgAdmin administra seu banco, mas você pode, e possivelmente terá, mais de um banco rodando em paralelo. O primeiro passo então é registra-lo.
 
 Para registrar o servidor PostgreSQL no PgAdmin usando o Docker Compose que você forneceu, siga estas etapas:
 
-Após executar o docker-compose up -d para iniciar os serviços, aguarde alguns segundos para que os contêineres PostgreSQL e PgAdmin sejam inicializados e estejam em execução.
+Após executar o docker-compose up para iniciar os serviços, aguarde alguns segundos para que os contêineres PostgreSQL e PgAdmin sejam inicializados e estejam em execução.
 
 Acesse o PgAdmin:
-Abra um navegador da web e acesse o PgAdmin usando o endereço http://ip_da_maquina_host:4321, substituindo "ip_da_maquina_host" pelo endereço IP da máquina onde o PgAdmin está sendo executado.
+- Abra um navegador da web e acesse o PgAdmin usando o endereço http://ip_da_maquina_host:4321, substituindo "ip_da_maquina_host" pelo endereço IP da máquina onde o PgAdmin está sendo executado. Você irá visualizar essa tela:
+
+  ![image](https://github.com/pedropberger/tutorials/assets/98188778/c3a6f02c-e2e1-4eee-96c6-9ce43a3c615c)
+
 
 Faça login:
-Use as credenciais definidas nas variáveis de ambiente PGADMIN_DEFAULT_EMAIL e PGADMIN_DEFAULT_PASSWORD no arquivo docker-compose.yml. No seu caso, o e-mail seria "admin@pgadmin.com" e a senha seria "adminpassword".
+Use as credenciais definidas nas variáveis de ambiente PGADMIN_DEFAULT_EMAIL e PGADMIN_DEFAULT_PASSWORD no arquivo docker-compose.yml. No exemplo desse post, o e-mail seria "admin@pgadmin.com" e a senha seria "adminpassword".
 
 Adicione um novo servidor:
 Agora, você pode adicionar um novo servidor PostgreSQL ao PgAdmin:
@@ -87,4 +113,6 @@ Clique em "Save" para adicionar o servidor.
 Acesse o servidor:
 Após salvar as configurações, você verá o servidor listado no painel esquerdo do PgAdmin. Clique nele para expandir e visualizar os bancos de dados e outras informações do servidor PostgreSQL.
 
-Certifique-se de que as informações fornecidas no PgAdmin correspondam às configurações definidas em seu arquivo docker-compose.yml para o serviço PostgreSQL. Isso inclui nome do host, porta, nome de usuário, senha e nome do banco de dados.
+Certifique-se de que as informações fornecidas no PgAdmin correspondam às configurações definidas em seu arquivo docker-compose.yml para o serviço PostgreSQL. Isso inclui nome do host, porta, nome de usuário, senha e nome do banco de dados. E se for rodar em produção, sempre proteja as credenciais!
+
+Próximo passo? Que tal aprender a conectar o Airflow a esse banco?
