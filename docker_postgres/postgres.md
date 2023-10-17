@@ -99,6 +99,8 @@ No painel esquerdo, clique com o botão direito em "Servers" e selecione "Create
 
 Na guia "General", dê um nome ao servidor em "Name" (por exemplo, "Docker PostgreSQL").
 
+![image](https://github.com/pedropberger/tutorials/assets/98188778/2410725f-0906-4139-bd0e-5d0dbab967f1)
+
 Na guia "Connection", configure as informações de conexão com o servidor PostgreSQL:
 
 "Host name/address": Use o nome do serviço do contêiner PostgreSQL, que é "postgres" no seu caso, já que eles compartilham a mesma rede.
