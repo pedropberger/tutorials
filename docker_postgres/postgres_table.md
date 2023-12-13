@@ -2,20 +2,20 @@ docker exec -it postgresql psql
 
 docker exec -it postgresql psql -U myuser -h localhost -p 5432 mpes
 
-docker exec -it postgresql psql -U myuser -h localhost -p 5432 Gera_Certidão
+docker exec -it postgresql psql -U myuser -h localhost -p 5432 gera_certidao
 
 
 
 
-CREATE DATABASE Gera_Certidao;
+CREATE DATABASE gera_certidao;
 
-psql -U myuser -h localhost -p 5432 Gera_Certidao
+psql -U myuser -h localhost -p 5432 gera_certidao
 
-CREATE USER user_pcvt WITH PASSWORD '@30056776';
+CREATE USER user_geracertidao WITH PASSWORD 'g3rac3rtida0';
 
-GRANT ALL PRIVILEGES ON DATABASE Gera_Certidao TO user_pcvt;
+GRANT ALL PRIVILEGES ON DATABASE mpes TO user_geracertidao;
 
-psql -U myuser -h localhost -p 5432 Gera_Certidão
+psql -U myuser -h localhost -p 5432 gera_certidao
 
 CREATE TABLE certidao (
   id SERIAL PRIMARY KEY,
@@ -28,3 +28,11 @@ CREATE TABLE certidao (
 
 \d certidao
 
+GRANT SELECT, UPDATE ON DATABASE "gera_certidao" TO user_geracertidao;
+
+GRANT SELECT ON ALL TABLES IN DATABASE "gera_certidao" TO user_geracertidao;
+
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO user_geracertidao;
+
+
+\du
