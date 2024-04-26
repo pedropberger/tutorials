@@ -9,7 +9,7 @@ Mas confesso que a Azure facilita e muito o serviço. Além de já entregar um a
 O passo a passo vai ser bem detalhado, quem ja manja das paradas pode pular algumas partes.
 
 
-## Passo 1: Autenticação e criação do recurso da OpenAI
+## Etapa 1: Autenticação e criação do recurso da OpenAI
 
 Primeiro, entre no Portal Azure. Isso é igual para todos.
 
@@ -73,59 +73,171 @@ Na tela final você revisa se tem alguma pendência e é só mandar bala, CREATE
 
 ![Captura de tela de 2024-04-16 18-29-21](https://github.com/pedropberger/tutorials/assets/98188778/d6369ef6-11e3-4855-9dda-ab08d689be7d)
 
+No canto direito vai surgir a tela avisando que o recurso está sendo criado, é só aguardar.
+
 ![Captura de tela de 2024-04-16 18-29-35](https://github.com/pedropberger/tutorials/assets/98188778/d4c5019f-06b8-4f8b-b962-314efb23dae9)
+
+.. e pronto, recurso funcionando. Agora é só alegria.
 
 ![Captura de tela de 2024-04-16 18-30-57](https://github.com/pedropberger/tutorials/assets/98188778/e4cc0205-4593-44b6-8f09-638283c93222)
 
-![Captura de tela de 2024-04-16 18-31-33](https://github.com/pedropberger/tutorials/assets/98188778/ca59ee11-8c10-4acd-8f1d-c1e157ce3a81)
+# Etapa 2: Azure OpenAI Studio
+
+Aqui começa o desenvolvimento do chatbot. Pra isso a Azure agora disponibiliza o Azure OpenAI Studio, que traz os seguintes benefícios:
+
+- O Azure OpenAI Studio unifica capacidades de diferentes serviços de IA do Azure.
+- Suporte simplificados a modelos como ChatGPT, DALL-E, Ada e outros no serviço Azure OpenAI.
+- Várias opções de segurança, conformidade e preços.
+- Ele permite que você crie, avalie e implante soluções geradas por IA.
+- Seja para chatbots, assistentes virtuais ou outras aplicações, o estúdio oferece uma experiência integrada
+
+Lá você controla quais modelos, como vai usá-los e até recebe exemplos de como consultar as API (mas isso é assunto para outro tutorial).
+
+Bora lá. Para começar, procure pelo seu recurso recém criado e clique sobre ele:
 
 ![Captura de tela de 2024-04-16 18-31-42](https://github.com/pedropberger/tutorials/assets/98188778/fded6ea5-72cb-4e84-b250-c71620bf103e)
 
+Você ira para uma tela similar a tela abaixo. Aqui você controla tudo que é gerado pelo seu recurso.
+
 ![Captura de tela de 2024-04-16 18-32-44](https://github.com/pedropberger/tutorials/assets/98188778/f0642943-88fa-421c-a7e5-e580b4061cfc)
+
+Em especial, a aba Develop traz as chaves de utilização, região em que foi criado o recurso e o Endpoint. Esses parâmetros não são mutáveis, e são de grande importancia no deploy de aplicações ou consumo dos modelos via API. Na dúvida, lembre sempre como achá-los e saiba dos riscos de expor as Chaves.
 
 ![Captura de tela de 2024-04-16 18-32-52](https://github.com/pedropberger/tutorials/assets/98188778/4e537ca5-e685-420d-9287-dd604d6639e6)
 
+Na aba Monitor você controla o uso e consumo dos seus modelos e aplicações. São diversas métricas com diferentes finalidades. Você consegue monitorar desde o uso do recurso, ou tokens (que impacta no preço) até tempo de uso de treinamento para o ajuste fino.
+
 ![Captura de tela de 2024-04-16 18-33-08](https://github.com/pedropberger/tutorials/assets/98188778/773fd484-03e3-41ef-b507-80fa1936aa93)
 
-![Captura de tela de 2024-04-16 18-34-24](https://github.com/pedropberger/tutorials/assets/98188778/51919801-3d69-473f-a46f-5c641d9ef763)
+Agora clique em "Go to Azure OpenAI Studio" no canto superior esquerdo e vamos para o que realmente interessa.
 
 ![Captura de tela de 2024-04-22 16-08-19](https://github.com/pedropberger/tutorials/assets/98188778/cc74e5d5-3f9a-49be-a051-4a801fce60b3)
 
+Você vai esbarrar com uma tela similar a essa:
+
 ![Captura de tela de 2024-04-22 16-36-18](https://github.com/pedropberger/tutorials/assets/98188778/78a249e9-aca0-46cf-aa8c-cab591032391)
 
-![Captura de tela de 2024-04-22 16-36-42](https://github.com/pedropberger/tutorials/assets/98188778/8cbaa123-257e-407e-999c-457bb4a2465f)
+Aí tem vários tutoriais prontos para você brincar e aprender. Mas o que aconselho a prestar atenção é nesse menu lateral e suas funcionalidades:
 
-![Captura de tela de 2024-04-22 16-36-57](https://github.com/pedropberger/tutorials/assets/98188778/d231674c-8200-4929-a730-01415da9c5db)
+Playground
+- Chat: O recurso de chat permite que você interaja com modelos de linguagem, como o ChatGPT, para criar experiências de aplicativos com base em conversas. Você pode enviar prompts e receber respostas geradas pelo modelo. É útil para criar assistentes virtuais, chatbots e outras aplicações de processamento de linguagem natural1.
+- Completions: Completions referem-se a modelos de preenchimento automático, como o GPT-4. Esses modelos podem prever e gerar continuamente texto com base em um contexto inicial. Eles são úteis para tarefas como autocompletar frases, gerar código ou escrever histórias1.
+- DALL-E: O DALL-E é um modelo de IA que gera imagens a partir de descrições de texto. Ele é capaz de criar arte visual com base em prompts de texto, permitindo que você explore a criatividade na geração de imagens1.
+- Assistentes (Visualização): A funcionalidade de assistentes está em visualização e permite que você crie seus próprios assistentes virtuais personalizados usando modelos de IA, como o GPT-4 e o DALL-E. Você pode integrar seus próprios dados, experimentar com prompts e criar fluxos de diálogo personalizados para criar assistentes específicos para suas necessidades2.
 
-![Captura de tela de 2024-04-22 16-37-14](https://github.com/pedropberger/tutorials/assets/98188778/6cf263d6-bce0-48fa-8320-b38c80bf501f)
+Management
+- Deployments: Os deployments são onde você implanta os modelos treinados para uso em produção. Você pode implantar modelos de linguagem, visão computacional e outros tipos de modelos para atender às necessidades do seu aplicativo.
+- Models: Aqui você encontrará uma variedade de modelos de IA disponíveis para uso. Esses modelos incluem recursos como processamento de linguagem natural, visão computacional e muito mais. Você pode escolher o modelo adequado para sua aplicação específica.
+- Data Files: Os arquivos de dados são usados para treinar e avaliar modelos. Você pode carregar seus próprios dados para treinamento ou usar conjuntos de dados pré-existentes para criar modelos personalizados.
+- Quotas: As quotas se referem aos limites de uso para implantação e inferência de modelos. Cada modelo tem uma cota associada, e você pode ajustar essas cotas conforme necessário para atender às demandas do seu aplicativo.
+- Content Filters: Os filtros de conteúdo são usados para garantir que as respostas geradas pelos modelos estejam dentro de limites aceitáveis. Isso é especialmente importante para evitar conteúdo inadequado ou ofensivo em aplicativos de produção.
+
+Da vontade de começar no Playground né. Mas o primeiro passo é clicar em Deployment.
+
+![Captura de tela de 2024-04-16 18-34-24](https://github.com/pedropberger/tutorials/assets/98188778/51919801-3d69-473f-a46f-5c641d9ef763)
+
+E pra quê começar pelo Deployment? Simples, sem modelo você não tem IA. O chatbot ou o que você quiser fazer vai precisar de um modelo para se basear (e consumir recursos).
+
+Gosto de enfatizar que o modelo é o motor carro. Seus créditos no Azure são o combustível. O Chatbot é só a lataria. Carro sem motor não anda.
+
+Para criar um, clique em "Create new deployment" e surgira uma tela com várias opções:
 
 ![Captura de tela de 2024-04-22 16-37-35](https://github.com/pedropberger/tutorials/assets/98188778/1c7d631c-a7e3-40c7-b4d2-b06399facb63)
 
+Entendendo a tela acima e definindo os parâmetros:
+
+Select a model: Aqui você decide seu modelo. Vai ser uma IA Generativa? seleciona um GPT que te agrade. É imagem que você quer? DALL-E. Embbeding? Ada. Para manter a coerencia desse tutorial, selecione um GPT. Eu vou no mais barato, gpt-35-turbo. A ideia desse chatbot é só ler uma biblioteca de documentos e responder sobre ela. Não preciso de informações recentes ou capacidade de passar no vestibular. Mas cada um sabe do que precisa. Se quiser saber mais sobre qual modelo, [pesquisa nesse site que você encontra tudo](https://www.google.com).
+
+Model version: Escolha a versão. Não da pra dizer como isso vai impactar. Escolha a que mais te agrade ou fique na padrão que não tem erro.
+
+Deployment type: Standard, sempre Standard.
+
+Deploymento name: Escolha um nome para o modelo. Você pode ter mais de um modelo do mesmo tipo, ou de tipos diferentes. O futuro a Deus pertence, então nomeie com sabedoria.
+
+Content filter: Por hora não da para selecionar nada além do defalt.
+
+Tokens per Minute Rate Limit: Esse é importante. Aqui você restringe quantos tokens você poderá consumir no máximo por minuto. Eu recomendo deixar o mínimo razoável que você acha que irá utilizar e habilitar a cota dinâmica. Mas se você vai implantar vários modelos é importante pensar nos limites antes. Atualmente por Subscription você tem o limite de 240k tokens por minuto, e essa cota vale PARA TODOS MODELOS, ou seja, se você tem outra aplicação que consome tokens, é importante limitar ela para não impactar no seu chatbot. Você pode visualizar as cotas e seus limites na aba Quotas.
+
+Pronto. Daí é só fazer o deploy e ver a tela abaixo.
+
+Dica importante: como todo recurso Azure, você pode criar e apagar quantas vezes quiser, mas as cotas do modelo demoram 48 horas para dar um "purge". Então se você sai criando e apagando modelos, fique atendo as cotas disponibilizadas para cada modelo, para não ter que esperar um tempão para elas voltarem. Isso aconteceu comigo e a solução eu [achei aqui](https://learn.microsoft.com/en-us/azure/ai-services/recover-purge-resources?tabs=azure-portal#purge-a-deleted-resource).
+
 ![Captura de tela de 2024-04-22 16-37-45](https://github.com/pedropberger/tutorials/assets/98188778/23840a85-a8f1-4c9d-80a5-03b91be3a508)
+
+Deploy feito meus amigos, vamos criar o chatbot.
+
+## Passo 3: O Chatbot
+
+Obviamente, clique na barra lateral no segundo item, o "Chat". E seja bem vindo ao Chat Playground. Aqui você já pode conversar, testar parâmetros e se familiarizar com seu chat que já tem como motor o modelo que você fez deploy acima.
+
+
 
 ![Captura de tela de 2024-04-22 16-38-03](https://github.com/pedropberger/tutorials/assets/98188778/cb2d218c-b88d-4c50-9843-309e7f0d9621)
 
+Nosso objetivo é um chatbot que lê arquivos, então vamos direto ao ponto. Clique em Add your data. E vamos adicionar seus textos.
+
 ![Captura de tela de 2024-04-22 16-38-25](https://github.com/pedropberger/tutorials/assets/98188778/ada23fc3-62c1-4867-ab3d-12365cccf943)
+
+Logo de cara você define o Data Source, e escolhe a opção de fazer upload dos seus arquivos. Você pode importar de outras opções, mas não vamos cobrir nesse tutorial.
 
 ![Captura de tela de 2024-04-22 16-38-50](https://github.com/pedropberger/tutorials/assets/98188778/57f191a6-9bae-4ce0-87e5-fed5c7fc77ed)
 
+Em seguida você seleciona a Subscription, e depois seleciona o recurso de armazenamento Blob em que serão armazenados os arquivos. Se você não tem esse recurso é só clicar em "Create a new Azure Blob storage resource", seguir o fluxo e criar uma Storage Account. Lembrando que precisa estar na rede e região do recurso Azure OpenAI.
+
 ![Captura de tela de 2024-04-22 16-39-02](https://github.com/pedropberger/tutorials/assets/98188778/83731d18-458f-47e7-9fe7-8b6b8141a267)
 
-![Captura de tela de 2024-04-22 16-40-55](https://github.com/pedropberger/tutorials/assets/98188778/1f9d32da-49ac-440c-9106-88a5871c5651)
+O proximo passo é a AI Search. Aqui você vai criar os Indexadores e Índices.
+
+Os Indexadores e Índices são componentes essenciais no Azure OpenAI On Your Data, que permite que os desenvolvedores conectem, ingeram e baseiem seus dados corporativos para criar copilotos personalizados rapidamente. Vamos entender o que são esses componentes:
+
+Indexadores:
+- Os indexadores são responsáveis por processar os dados que o serviço monitora. Quando todos os dados são processados, o OpenAI do Azure dispara o segundo indexador.
+- Esse segundo indexador armazena os dados processados em um serviço da Pesquisa de IA do Azure.
+- Os indexadores são fundamentais para a busca eficiente e a recuperação de informações relevantes a partir dos dados corporativos.
+
+Índices:
+- Os índices são estruturas de dados que organizam e otimizam o acesso aos dados.
+- Eles permitem que o sistema execute consultas de maneira eficiente, acelerando a busca e a recuperação de informações.
+- No contexto do Azure OpenAI, os índices são usados para melhorar a precisão das respostas do modelo e agilizar a interação com os dados.
+
+Em resumo, os indexadores processam os dados e os armazenam em índices otimizados para facilitar a busca e a análise. Esses componentes trabalham juntos para permitir que o Azure OpenAI On Your Data ofereça respostas mais precisas e eficientes com base nos dados corporativos.
+
+Clique para criar um Indexador e vá para a seguinte tela:
 
 ![Captura de tela de 2024-04-22 16-41-38](https://github.com/pedropberger/tutorials/assets/98188778/ea9a8ebd-4b8f-4dbf-905d-9079950fb898)
 
+Aqui você seleciona suas opções e da um nome para o serviço de pesquisa. Selecione a região certa. É opcional (e recomendável) alterar o Pricing tier de acordo com a quantidade de dados que você planeja indexar. Porém esteja ciente que a opção "Free" não funcionará com o chatbot. Pelo menos não hoje. Na primeira vez que fiz, só aceitava a Standard que era cara pra caramba. Agora já da pra fazer com opções menos onerosas.
+
 ![Captura de tela de 2024-04-22 16-41-55](https://github.com/pedropberger/tutorials/assets/98188778/6d5bf62c-53fe-4102-8751-d9d5bef9d886)
+
+Defina a quantidade de réplicas e partições. Se você não entende ou não precisa de escalabilidade, pule essa parte, ajuste a Rede, as Tags e seja feliz após o Review+Create
 
 ![Captura de tela de 2024-04-22 16-42-25](https://github.com/pedropberger/tutorials/assets/98188778/abe99d57-7f94-4e39-83bb-7109d43fd0e2)
 
-![Captura de tela de 2024-04-22 16-42-39](https://github.com/pedropberger/tutorials/assets/98188778/ad452f9c-6b40-44f5-b0ff-6e88b2f8c892)
+Se a tela abaixo aparecer, clique em Turn on CORS para continuar. A explicação está no warning.
 
-![Captura de tela de 2024-04-22 16-42-53](https://github.com/pedropberger/tutorials/assets/98188778/2e9e95c6-92ed-45d8-afd8-54cc63b63de0)
+![Captura de tela de 2024-04-22 16-40-55](https://github.com/pedropberger/tutorials/assets/98188778/1f9d32da-49ac-440c-9106-88a5871c5651)
+
+Coloque um nome para o Índice e depois é só criar seguir o baile.
 
 ![Captura de tela de 2024-04-22 16-56-12](https://github.com/pedropberger/tutorials/assets/98188778/c0cf0ed9-1338-498a-be8d-9052913e62b3)
 
+Na tela em sequência você sobe seus arquivos. É basicamente um Drag and drop. Só aceita arquivos de texto nos formatos apresentados. Faça o upload e dê sequência.
+
 ![Captura de tela de 2024-04-22 16-56-25](https://github.com/pedropberger/tutorials/assets/98188778/8ad16fab-3456-4a52-bdef-a75ad862d800)
+
+Nessa tela você administra como seus dados serão usados. Não da para selecionar nada além de Keyword. Porém você pode alterar o Chunk Size.
+
+Da para escrever uma dissertação de mestrado sobre Chunk Size. Na minha experiência, deixo as seguintes dicas:
+
+- Você tem arquivos pequenos e de poucas páginas: recomendo size de 256 ou 512.
+- As respostas serão relacionadas a trechos pequenos dos documentos: 256 ou 512.
+- Arquivos de texto grandes: 1024 ou 1536.
+- Quer respostas que incorporem diversas partes do texto ou resumam páginas inteiras: 1024 ou 1536.
+
+Na dúvida vai em 1024 que dá bom também.
+
+É engraçado que existe muita subjetividade, e as melhores referencias sobre o tema dizem que você deve ajustar conforme o seu "feeling" ou as respostas que você tem recebido. Não temos ainda funções de otimização para isso. Vai depender sempre da sua base de dados e do usuário.
 
 ![Captura de tela de 2024-04-22 17-00-27](https://github.com/pedropberger/tutorials/assets/98188778/4b468949-f24e-4ce7-8367-feab35ec46e8)
 
