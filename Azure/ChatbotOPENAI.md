@@ -166,11 +166,9 @@ Dica importante: como todo recurso Azure, você pode criar e apagar quantas veze
 
 Deploy feito meus amigos, vamos criar o chatbot.
 
-## Passo 3: O Chatbot
+## Passo 3: Indexando os dados
 
 Obviamente, clique na barra lateral no segundo item, o "Chat". E seja bem vindo ao Chat Playground. Aqui você já pode conversar, testar parâmetros e se familiarizar com seu chat que já tem como motor o modelo que você fez deploy acima.
-
-
 
 ![Captura de tela de 2024-04-22 16-38-03](https://github.com/pedropberger/tutorials/assets/98188778/cb2d218c-b88d-4c50-9843-309e7f0d9621)
 
@@ -226,7 +224,7 @@ Na tela em sequência você sobe seus arquivos. É basicamente um Drag and drop.
 
 ![Captura de tela de 2024-04-22 16-56-25](https://github.com/pedropberger/tutorials/assets/98188778/8ad16fab-3456-4a52-bdef-a75ad862d800)
 
-Nessa tela você administra como seus dados serão usados. Não da para selecionar nada além de Keyword. Porém você pode alterar o Chunk Size.
+Na tela abaixo você administra como seus dados serão usados. Não da para selecionar nada além de Keyword. Porém você pode alterar o Chunk Size.
 
 Da para escrever uma dissertação de mestrado sobre Chunk Size. Na minha experiência, deixo as seguintes dicas:
 
@@ -237,15 +235,31 @@ Da para escrever uma dissertação de mestrado sobre Chunk Size. Na minha experi
 
 Na dúvida vai em 1024 que dá bom também.
 
-É engraçado que existe muita subjetividade, e as melhores referencias sobre o tema dizem que você deve ajustar conforme o seu "feeling" ou as respostas que você tem recebido. Não temos ainda funções de otimização para isso. Vai depender sempre da sua base de dados e do usuário.
+É engraçado que existe muita subjetividade, e as melhores referencias sobre o tema dizem que você deve ajustar conforme o seu "feeling" e ir refinando com base respostas que você tem recebido e no feedback dos usuários. Não temos ainda funções de otimização ou que automatizem o melhor ajuste.
 
 ![Captura de tela de 2024-04-22 17-00-27](https://github.com/pedropberger/tutorials/assets/98188778/4b468949-f24e-4ce7-8367-feab35ec46e8)
 
+De sequência e aí é só aguardar o processo de ingestão dos seus arquivos. Eles serão pré-processados e indexados um a um. Se der algum problema, é só refazer esse passo. Os problemas mais comuns são arquivos em formatos não compatíveis, índice já existente de outros deploys e problemas para acessar sua Storage Account.
+
 ![Captura de tela de 2024-04-22 17-00-40](https://github.com/pedropberger/tutorials/assets/98188778/e0e0480d-64c9-4a23-9e29-0c4447f04e06)
+
+E pronto, agora só falta refinar os parâmetros.
+
+# Etapa 4: O Chatbot
+
+Agora já temos arquivos indexados e vinculados a nosso recurso Azure OpenAI. Chegou a hora de ajustar os detalhes sobre o prompt e os parâmetros. A qualquer momento durante essa etapa você já pode ir testando o chatbot na tela principal, que ele dará as respostas conforme os parâmetros ajustados em tempo real.
+
+O primeiro passo antes de tudo é fazer os ajustes em como seu chatbot usará os dados. Para isso, clique em "Advanced settings" conforme na tela abaixo e serão apresentadas 3 opções.
+
+![Captura de tela de 2024-04-22 17-18-29](https://github.com/pedropberger/tutorials/assets/98188778/b4dfc65e-e018-4f64-be6d-4083b300663c)
+
+A primeira caixa de seleção é onde você define se o chatbot poderá responder questões de qualquer tópico (um ChatGTP raiz) além das relacionadas aos documentos. Eu sugiro fortemente em deixar ela marcada se seu interesse é de fato criar um chatbot que responda perguntas sobre os documentos indexados. Existem parâmetros para limitar o quanto ele pode sair do escopo dos documentos, mas todos meus testes com usuários onde não deixei essa caixinha marcada foram frustrantes. Usuários dificilmente seguem um manual e as vezes até se es
+
+O segundo passo é definir a "role" do seu chatbot. Vem algumas pré configuradas para você visualizar e testar. Mas como isso vai para produção, você deve setar como Default (ou deixar em branco) e setar a System Message, conforme na tela abaixo. Na System Message você diz para seu chatbot o que ele é e como deve responder. Quem já estudou o básico do básico do prompt conhece a clássica frase "Fale como um especialista" antes de conversar com o GPT. Aqui a função vai ser semelhante, mas você diz em que ele será especialista. No nosso caso colocamos "Fale como um funcionário do RH. Sempre responda em Português Brasileiro". Depois de inserir a informação é só clicar em salvar.
 
 ![Captura de tela de 2024-04-22 17-18-21](https://github.com/pedropberger/tutorials/assets/98188778/7b80b2eb-225a-4ebd-a2a6-83cf7a4930a2)
 
-![Captura de tela de 2024-04-22 17-18-29](https://github.com/pedropberger/tutorials/assets/98188778/b4dfc65e-e018-4f64-be6d-4083b300663c)
+
 
 ![Captura de tela de 2024-04-22 17-18-41](https://github.com/pedropberger/tutorials/assets/98188778/99d20512-a980-4d81-8ab7-67cdd7ea0dc1)
 
