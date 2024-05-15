@@ -259,18 +259,55 @@ O segundo passo é definir a "role" do seu chatbot. Vem algumas pré configurada
 
 ![Captura de tela de 2024-04-22 17-18-21](https://github.com/pedropberger/tutorials/assets/98188778/7b80b2eb-225a-4ebd-a2a6-83cf7a4930a2)
 
-
+Na sessão "Configuration" você pode selecionar o Modelo que você fez o deploy e selecionar a quantidade de mensagens que serão levadas em consideração no prompt. Lembrando que serão consideradas no total de tokens.
 
 ![Captura de tela de 2024-04-22 17-18-41](https://github.com/pedropberger/tutorials/assets/98188778/99d20512-a980-4d81-8ab7-67cdd7ea0dc1)
 
+Na sessão de parâmetros é onde você pode brincar com os resultados da geração do texto. Rapidamente o que cada um significa:
+
+Temperatura:
+- A temperatura controla a aleatoriedade das respostas geradas pelo modelo.
+- Um valor de temperatura mais alto (por exemplo, 0,8-1,0) torna as respostas mais diversificadas e criativas, pois permite que o modelo explore diferentes possibilidades.
+- Por outro lado, um valor mais baixo (por exemplo, 0,2-0,5) torna as respostas mais focadas e deterministas, sendo útil para consultas baseadas em fatos ou respostas precisas.
+
+Top P:
+- O parâmetro Top P controla a diversidade do resultado gerado, limitando a distribuição de probabilidade das palavras.
+- Quando o valor Top P é definido como 0,4, o modelo considera apenas 40% das palavras ou frases mais prováveis.
+- Valores mais altos (por exemplo, 0,9-1,0) garantem uma gama mais ampla de opções, resultando em respostas mais diversificadas.
+- Valores mais baixos (por exemplo, 0,1-0,5) limitam as opções às mais prováveis, tornando as respostas mais focadas e coerentes.
+
+Frequency Penalty:
+- É uma penalização aplicada ao modelo para evitar que ele repita palavras com muita frequência.
+- Quando configurado, o modelo é incentivado a variar suas escolhas de palavras, tornando as respostas mais naturais e menos repetitivas.
+- É especialmente útil para evitar respostas excessivamente monótonas ou redundantes.
+
+Presence Penalty:
+- O Presence Penalty penaliza o modelo quando ele gera palavras que não estão presentes no contexto fornecido.
+- Isso ajuda a evitar respostas que incluam informações não relevantes ou que não estejam diretamente relacionadas à pergunta.
+- A presença de penalização incentiva o modelo a se ater ao contexto e produzir respostas mais coesas e pertinentes.
+
+Eu, pessoalmente, para um chatbot que tem que ser restrito e conservador, deixo a temperatura no talo, top P baixo e as penalidades no 0.
+
+Terminando as configurações, é só fazer o deploy.
+
 ![Captura de tela de 2024-04-22 17-18-51](https://github.com/pedropberger/tutorials/assets/98188778/876eea6a-140e-488a-83a4-fc424d4ed065)
+
+Aí surgem duas opções. Web app é a ideia desse tutorial e a que vamos selecionar. Essa opção cria uma interface genérica para seu chatbot (que no futuro pretendo listar como editar) que pode ser distribuida interna e externamente. Por padrão ela fica restrita aos seus usuários registrados no AD.
+
+Fazer o deploy no copilot studio vai te levar a outro serviço, que é um universo a parte.
 
 ![Captura de tela de 2024-04-22 17-19-19](https://github.com/pedropberger/tutorials/assets/98188778/fe162f61-f757-4bee-8113-919ca7e3f562)
 
+Após selecionar você vai para tela abaixo:
+
 ![Captura de tela de 2024-04-22 17-20-17](https://github.com/pedropberger/tutorials/assets/98188778/8bd333f6-d41c-4726-bd9a-623d73b469ec)
+
+Aqui você cria seu aplicativo, ou, caso já tenha criado, pode fazer um upgrade no aplicativo já existente. Dá para habilitar o salvamento do chat se você achar importante, mas aí terá que criar um serviço CosmosDB.
 
 ![Captura de tela de 2024-04-22 17-26-05](https://github.com/pedropberger/tutorials/assets/98188778/d11bee24-2132-4651-b6da-184d26194fd1)
 
+Feito isso é só esperar o deploy (que é meio demorado) e então voila:
+
 ![Captura de tela de 2024-04-22 17-42-16](https://github.com/pedropberger/tutorials/assets/98188778/c427a7d1-7e8c-4bf5-8d88-a16bc264f058)
 
-
+Chatbot operando.
