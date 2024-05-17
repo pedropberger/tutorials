@@ -1,313 +1,318 @@
-# Como criar um chatbot para seus próprios arquivos usando a Azure OpenAI em 2024
+Here is the English translation of your Markdown:
 
-Esse é um processo novo, e utiliza as funções "Preview" do Azure, talvez quando você for criar o seu já terão algumas diferenças. Mas não deixa de ser funcional.
+# How to create a chatbot for your own files using Azure OpenAI in 2024
 
-Essa solução pode ser criada também diretamente usando as APIs do OPENAI, sem a necessidade de uma assinatura do Azure.
+This is a new process, and it uses Azure's "Preview" functions, so there may be some differences when you create yours. But it's still functional.
 
-Mas confesso que a Azure facilita e muito o serviço. Além de já entregar um aplicativo de chatbot que autentica no seu AD (ou da sua empresa) e nasce pronto para ser customizado. Além de que, se você está começando pode usar um pouco dos seus créditos gratuitos sem pesar muito no bolso.
+This solution can also be created directly using OPENAI's APIs, without the need for an Azure subscription.
 
-O passo a passo vai ser bem detalhado, quem ja manja das paradas pode pular algumas partes.
+But I confess that Azure greatly facilitates the service. In addition to already delivering a chatbot application that authenticates in your AD (or your company's) and is ready to be customized. Plus, if you're just starting out, you can use some of your free credits without weighing heavily on your pocket.
+
+The step-by-step will be very detailed, those who already know the ropes can skip some parts.
 
 
-## Etapa 1: Autenticação e criação do recurso da OpenAI
+## Step 1: Authentication and creation of the OpenAI resource
 
-Primeiro, entre no Portal Azure. Isso é igual para todos.
+First, enter the Azure Portal. This is the same for everyone.
 
-![Captura de tela de 2024-04-16 18-20-03](https://github.com/pedropberger/tutorials/assets/98188778/5622f5b4-59b5-4f05-a4c7-fa3d749ea1da)
+![Screenshot of 2024-04-16 18-20-03](https://github.com/pedropberger/tutorials/assets/98188778/5622f5b4-59b5-4f05-a4c7-fa3d749ea1da)
 
-Faça o login com suas credenciais (pessoais ou da sua empresa)
+Log in with your credentials (personal or your company's)
 
-![Captura de tela de 2024-04-16 18-20-16](https://github.com/pedropberger/tutorials/assets/98188778/bb284728-0370-4625-80a2-8d40ce0eaa1a)
+![Screenshot of 2024-04-16 18-20-16](https://github.com/pedropberger/tutorials/assets/98188778/bb284728-0370-4625-80a2-8d40ce0eaa1a)
 
-Usualmente, você vai ser essa barra. Clique no "+" e procure o recurso, ou apenas busque por "OpenAI" na barra superior.
+Usually, you will see this bar. Click on the "+" and look for the resource, or just search for "OpenAI" in the top bar.
 
-![Captura de tela de 2024-04-16 18-21-32](https://github.com/pedropberger/tutorials/assets/98188778/13c84f15-cb96-4631-817c-3e667ea13768)
+![Screenshot of 2024-04-16 18-21-32](https://github.com/pedropberger/tutorials/assets/98188778/13c84f15-cb96-4631-817c-3e667ea13768)
 
-Cliquei no ícone da "Azure OpenAI" para entrar nas opções do recurso.
+I clicked on the "Azure OpenAI" icon to enter the resource options.
 
-![Captura de tela de 2024-04-16 18-22-30](https://github.com/pedropberger/tutorials/assets/98188778/a506b056-e261-468c-b569-42c98c74b329)
+![Screenshot of 2024-04-16 18-22-30](https://github.com/pedropberger/tutorials/assets/98188778/a506b056-e261-468c-b569-42c98c74b329)
 
-Nessa tela você gerencia todas as opções sobre o recurso, inclusive opções sobre implantações de modelos que você irá fazer no futuro (GPT 3.5 turbo, GPT 4, DALL-e, etc).
+On this screen, you manage all options about the resource, including options about deployments of models that you will make in the future (GPT 3.5 turbo, GPT 4, DALL-e, etc).
 
-Você pode criar um ou mais recursos OpenAI. A operação de criar o recurso não tem um custo, e pelo meus testes. Então você pode criar um recurso OpenAI para cada aplicação e chatbot, ou pode utilizar apenas uma para todas suas soluções. Isso vai depender da quantidade de serviços e da forma de sua equipe/organização trabalhar. Para criar o recurso é só clicar em "Create" no canto superior esquerdo.
+You can create one or more OpenAI resources. The operation of creating the resource does not have a cost, and by my tests. So you can create an OpenAI resource for each application and chatbot, or you can use just one for all your solutions. This will depend on the number of services and the way your team/organization works. To create the resource, just click on "Create" in the upper left corner.
 
-![Captura de tela de 2024-04-16 18-23-03](https://github.com/pedropberger/tutorials/assets/98188778/9e8361d2-1c63-4604-bc5a-ebbbe923b840)
+![Screenshot of 2024-04-16 18-23-03](https://github.com/pedropberger/tutorials/assets/98188778/9e8361d2-1c63-4604-bc5a-ebbbe923b840)
 
-Você chegará na tela abaixo. Aqui começam as definições importantes que vão seguir para sempre com o recurso. Algumas podem ser modificadas depois do Deploy, outras não. Mas não precisa se preocupar muito com errar se for sua primeira vez, se der ruim é só apagar tudo e criar de novo.
+You will arrive at the screen below. Here begin the important definitions that will follow forever with the resource. Some can be modified after the Deploy, others cannot. But you don't need to worry too much about making a mistake if it's your first time, if it goes bad just delete everything and create again.
 
-Selecione sua Subscription e seu Resource group. Se você não conseguir, procure alguém que possa te dar permissão. As vezes não basta ter acesso ao Resource Group, você precisa de permissão para criar o recurso dentro daquele grupo de recursos.
+Select your Subscription and your Resource group. If you can't, look for someone who can give you permission. Sometimes it's not enough to have access to the Resource Group, you need permission to create the resource within that resource group.
 
-Selecione a região. Dica importante sobre a região: Você precisará criar outros recursos nesse tutorial ou na sua vida, como uma Storage Account e um Serviço de Pesquisa, é interessante que estejam na mesma rede que o recurso da OpenAI, e para isso as vezes é necessário que sejam criados na mesma região, e nem todas regiões possuem todos recursos. Então aconselho escolher uma região e criar todos seus recursos e rede nela. E escolher uma região que possua todos recursos. Foi mal se soou prolixo.
+Select the region. Important tip about the region: You will need to create other resources in this tutorial or in your life, such as a Storage Account and a Search Service, it is interesting that they are in the same network as the OpenAI resource, and for that sometimes it is necessary that they are created in the same region, and not all regions have all resources. So I advise you to choose a region and create all your resources and network in it. And choose a region that has all resources. Sorry if it sounded verbose.
 
-Algumas regiões (como Brazil-South, por exemplo) ainda não possuem certos modelos que serão necessários nesse tutorial.
+Some regions (like Brazil-South, for example) still do not have certain models that will be necessary in this tutorial.
 
-![Captura de tela de 2024-04-16 18-26-01](https://github.com/pedropberger/tutorials/assets/98188778/2f459747-93fa-455d-a8f9-5bf81df954ca)
+![Screenshot of 2024-04-16 18-26-01](https://github.com/pedropberger/tutorials/assets/98188778/2f459747-93fa-455d-a8f9-5bf81df954ca)
 
-Aqui na rede recomendo você pode criar ou utilizar uma rede virtual e subrede para sua segurança. Lembrando que todos os recursos precisarão ser criados na mesma rede.
+Here in the network I recommend you can create or use a virtual network and subnet for your security. Remembering that all resources will need to be created in the same network.
 
-Você também pode utilizar a primeira opção e liberar para todas as redes, incluindo a internet, para acessar o recurso. É arriscado? é. Mas para alguém consumir o seu recurso precisará da suas Chaves que serão criadas no futuro. Então na minha opinião de não especialista em segurança de TI, isso é um risco controlado, já que será um ambiente de desenvolvimento.
+You can also use the first option and release to all networks, including the internet, to access the resource. Is it risky? it is. But for someone to consume your resource will need your Keys that will be created in the future. So in my opinion of non-expert in IT security, this is a controlled risk, since it will be a development environment.
 
-Vai fazer um deploy em produção? use uma rede fechada e consulte o administrador de redes do seu time.
+Are you going to do a production deploy? use a closed network and consult the network administrator of your team.
 
-![Captura de tela de 2024-04-16 18-26-34](https://github.com/pedropberger/tutorials/assets/98188778/2f28cb2d-4f2d-4f23-b988-f6255bc58439)
+![Screenshot of 2024-04-16 18-26-34](https://github.com/pedropberger/tutorials/assets/98188778/2f28cb2d-4f2d-4f23-b988-f6255bc58439)
 
 TAGs!
 
-Aqui você coloca as TAGs
+Here you put the TAGs
 
-O que são tags?
-- As tags são pares de chave-valor que você pode associar a recursos no Azure.
-- Cada recurso ou grupo de recursos pode ter até 15 tags.
-- Exemplo de formato de tag: Departamento: TI, Status: Teste, CentroDeCusto: RH.
+What are tags?
+- Tags are key-value pairs that you can associate with resources in Azure.
+- Each resource or resource group can have up to 15 tags.
+- Example of tag format: Department: IT, Status: Test, CostCenter: HR.
 
-Benefícios do uso de tags:
-- Organização: Ajuda a organizar e categorizar recursos.
-- Gestão: Facilita a busca e filtragem de recursos com base em critérios específicos.
-- Acompanhamento de custos: Permite rastrear os custos associados a projetos ou departamentos específicos.
+Benefits of using tags:
+- Organization: Helps to organize and categorize resources.
+- Management: Facilitates the search and filtering of resources based on specific criteria.
+- Cost tracking: Allows tracking the costs associated with specific projects or departments.
 
-Veja como seu time uma forma organizada de usá-las. É algo opcional, cada equipe tem suas políticas e fique tranquilo, da para alterar/acrescentar novas depois.
+See how your team an organized way to use them. It is optional, each team has its policies and rest assured, you can change/add new ones later.
 
-![Captura de tela de 2024-04-16 18-27-40](https://github.com/pedropberger/tutorials/assets/98188778/a2ab9113-9f34-4057-9a8d-0c2b36ec788a)
+![Screenshot of 2024-04-16 18-27-40](https://github.com/pedropberger/tutorials/assets/98188778/a2ab9113-9f34-4057-9a8d-0c2b36ec788a)
 
-Na tela final você revisa se tem alguma pendência e é só mandar bala, CREATE.
+On the final screen, you review if there is any pending and just go for it, CREATE.
 
-![Captura de tela de 2024-04-16 18-29-21](https://github.com/pedropberger/tutorials/assets/98188778/d6369ef6-11e3-4855-9dda-ab08d689be7d)
+![Screenshot of 2024-04-16 18-29-21](https://github.com/pedropberger/tutorials/assets/98188778/d6369ef6-11e3-4855-9dda-ab08d689be7d)
 
-No canto direito vai surgir a tela avisando que o recurso está sendo criado, é só aguardar.
+On the right side will appear the screen warning that the resource is being created, just wait.
 
-![Captura de tela de 2024-04-16 18-29-35](https://github.com/pedropberger/tutorials/assets/98188778/d4c5019f-06b8-4f8b-b962-314efb23dae9)
+![Screenshot of 2024-04-16 18-29-35](https://github.com/pedropberger/tutorials/assets/98188778/d4c5019f-06b8-4f8b-b962-314efb23dae9)
 
-.. e pronto, recurso funcionando. Agora é só alegria.
+.. and done, resource working. Now it's just joy.
 
-![Captura de tela de 2024-04-16 18-30-57](https://github.com/pedropberger/tutorials/assets/98188778/e4cc0205-4593-44b6-8f09-638283c93222)
+![Screenshot of 2024-04-16 18-30-57](https://github.com/pedropberger/tutorials/assets/98188778/e4cc0205-4593-44b6-8f09-638283c93222)
 
-# Etapa 2: Azure OpenAI Studio
 
-Aqui começa o desenvolvimento do chatbot. Pra isso a Azure agora disponibiliza o Azure OpenAI Studio, que traz os seguintes benefícios:
+# Step 2: Azure OpenAI Studio
 
-- O Azure OpenAI Studio unifica capacidades de diferentes serviços de IA do Azure.
-- Suporte simplificados a modelos como ChatGPT, DALL-E, Ada e outros no serviço Azure OpenAI.
-- Várias opções de segurança, conformidade e preços.
-- Ele permite que você crie, avalie e implante soluções geradas por IA.
-- Seja para chatbots, assistentes virtuais ou outras aplicações, o estúdio oferece uma experiência integrada
+Here begins the development of the chatbot. For this, Azure now provides Azure OpenAI Studio, which brings the following benefits:
 
-Lá você controla quais modelos, como vai usá-los e até recebe exemplos de como consultar as API (mas isso é assunto para outro tutorial).
+- Azure OpenAI Studio unifies capabilities from different Azure AI services.
+- Simplified support for models like ChatGPT, DALL-E, Ada, and others in the Azure OpenAI service.
+- Various options for security, compliance, and pricing.
+- It allows you to create, evaluate, and deploy AI-generated solutions.
+- Whether for chatbots, virtual assistants, or other applications, the studio offers an integrated experience.
 
-Bora lá. Para começar, procure pelo seu recurso recém criado e clique sobre ele:
+There you control which models, how you will use them, and even receive examples of how to consult the API (but that is a subject for another tutorial).
 
-![Captura de tela de 2024-04-16 18-31-42](https://github.com/pedropberger/tutorials/assets/98188778/fded6ea5-72cb-4e84-b250-c71620bf103e)
+Let's go. To start, look for your newly created resource and click on it:
 
-Você ira para uma tela similar a tela abaixo. Aqui você controla tudo que é gerado pelo seu recurso.
+![Screenshot of 2024-04-16 18-31-42](https://github.com/pedropberger/tutorials/assets/98188778/fded6ea5-72cb-4e84-b250-c71620bf103e)
 
-![Captura de tela de 2024-04-16 18-32-44](https://github.com/pedropberger/tutorials/assets/98188778/f0642943-88fa-421c-a7e5-e580b4061cfc)
+You will go to a screen similar to the screen below. Here you control everything that is generated by your resource.
 
-Em especial, a aba Develop traz as chaves de utilização, região em que foi criado o recurso e o Endpoint. Esses parâmetros não são mutáveis, e são de grande importancia no deploy de aplicações ou consumo dos modelos via API. Na dúvida, lembre sempre como achá-los e saiba dos riscos de expor as Chaves.
+![Screenshot of 2024-04-16 18-32-44](https://github.com/pedropberger/tutorials/assets/98188778/f0642943-88fa-421c-a7e5-e580b4061cfc)
 
-![Captura de tela de 2024-04-16 18-32-52](https://github.com/pedropberger/tutorials/assets/98188778/4e537ca5-e685-420d-9287-dd604d6639e6)
+In particular, the Develop tab brings the usage keys, region where the resource was created, and the Endpoint. These parameters are not mutable, and are of great importance in the deployment of applications or consumption of models via API. When in doubt, always remember how to find them and be aware of the risks of exposing the Keys.
 
-Na aba Monitor você controla o uso e consumo dos seus modelos e aplicações. São diversas métricas com diferentes finalidades. Você consegue monitorar desde o uso do recurso, ou tokens (que impacta no preço) até tempo de uso de treinamento para o ajuste fino.
+![Screenshot of 2024-04-16 18-32-52](https://github.com/pedropberger/tutorials/assets/98188778/4e537ca5-e685-420d-9287-dd604d6639e6)
 
-![Captura de tela de 2024-04-16 18-33-08](https://github.com/pedropberger/tutorials/assets/98188778/773fd484-03e3-41ef-b507-80fa1936aa93)
+In the Monitor tab, you control the use and consumption of your models and applications. There are several metrics with different purposes. You can monitor from the use of the resource, or tokens (which impacts the price) to training usage time for fine-tuning.
 
-Agora clique em "Go to Azure OpenAI Studio" no canto superior esquerdo e vamos para o que realmente interessa.
+![Screenshot of 2024-04-16 18-33-08](https://github.com/pedropberger/tutorials/assets/98188778/773fd484-03e3-41ef-b507-80fa1936aa93)
 
-![Captura de tela de 2024-04-22 16-08-19](https://github.com/pedropberger/tutorials/assets/98188778/cc74e5d5-3f9a-49be-a051-4a801fce60b3)
+Now click on "Go to Azure OpenAI Studio" in the upper left corner and let's go to what really matters.
 
-Você vai esbarrar com uma tela similar a essa:
+![Screenshot of 2024-04-22 16-08-19](https://github.com/pedropberger/tutorials/assets/98188778/cc74e5d5-3f9a-49be-a051-4a801fce60b3)
 
-![Captura de tela de 2024-04-22 16-36-18](https://github.com/pedropberger/tutorials/assets/98188778/78a249e9-aca0-46cf-aa8c-cab591032391)
+You will bump into a screen similar to this one:
 
-Aí tem vários tutoriais prontos para você brincar e aprender. Mas o que aconselho a prestar atenção é nesse menu lateral e suas funcionalidades:
+![Screenshot of 2024-04-22 16-36-18](https://github.com/pedropberger/tutorials/assets/98188778/78a249e9-aca0-46cf-aa8c-cab591032391)
+
+There are several ready-made tutorials for you to play and learn. But what I advise to pay attention to is this side menu and its functionalities:
 
 Playground
-- Chat: O recurso de chat permite que você interaja com modelos de linguagem, como o ChatGPT, para criar experiências de aplicativos com base em conversas. Você pode enviar prompts e receber respostas geradas pelo modelo. É útil para criar assistentes virtuais, chatbots e outras aplicações de processamento de linguagem natural1.
-- Completions: Completions referem-se a modelos de preenchimento automático, como o GPT-4. Esses modelos podem prever e gerar continuamente texto com base em um contexto inicial. Eles são úteis para tarefas como autocompletar frases, gerar código ou escrever histórias1.
-- DALL-E: O DALL-E é um modelo de IA que gera imagens a partir de descrições de texto. Ele é capaz de criar arte visual com base em prompts de texto, permitindo que você explore a criatividade na geração de imagens1.
-- Assistentes (Visualização): A funcionalidade de assistentes está em visualização e permite que você crie seus próprios assistentes virtuais personalizados usando modelos de IA, como o GPT-4 e o DALL-E. Você pode integrar seus próprios dados, experimentar com prompts e criar fluxos de diálogo personalizados para criar assistentes específicos para suas necessidades2.
+- Chat: The chat feature allows you to interact with language models, such as ChatGPT, to create application experiences based on conversations. You can send prompts and receive responses generated by the model. It is useful for creating virtual assistants, chatbots, and other natural language processing applications.
+- Completions: Completions refer to autocomplete models, like GPT-4. These models can predict and continuously generate text based on an initial context. They are useful for tasks such as autocompleting sentences, generating code, or writing stories.
+- DALL-E: DALL-E is an AI model that generates images from text descriptions. It is capable of creating visual art based on text prompts, allowing you to explore creativity in image generation.
+- Assistants (Preview): The assistants functionality is in preview and allows you to create your own custom virtual assistants using AI models, such as GPT-4 and DALL-E. You can integrate your own data, experiment with prompts, and create custom dialogue flows to create specific assistants for your needs.
 
 Management
-- Deployments: Os deployments são onde você implanta os modelos treinados para uso em produção. Você pode implantar modelos de linguagem, visão computacional e outros tipos de modelos para atender às necessidades do seu aplicativo.
-- Models: Aqui você encontrará uma variedade de modelos de IA disponíveis para uso. Esses modelos incluem recursos como processamento de linguagem natural, visão computacional e muito mais. Você pode escolher o modelo adequado para sua aplicação específica.
-- Data Files: Os arquivos de dados são usados para treinar e avaliar modelos. Você pode carregar seus próprios dados para treinamento ou usar conjuntos de dados pré-existentes para criar modelos personalizados.
-- Quotas: As quotas se referem aos limites de uso para implantação e inferência de modelos. Cada modelo tem uma cota associada, e você pode ajustar essas cotas conforme necessário para atender às demandas do seu aplicativo.
-- Content Filters: Os filtros de conteúdo são usados para garantir que as respostas geradas pelos modelos estejam dentro de limites aceitáveis. Isso é especialmente importante para evitar conteúdo inadequado ou ofensivo em aplicativos de produção.
+- Deployments: Deployments are where you deploy trained models for production use. You can deploy language models, computer vision models, and other types of models to meet the needs of your application.
+- Models: Here you will find a variety of AI models available for use. These models include features such as natural language processing, computer vision, and much more. You can choose the appropriate model for your specific application.
+- Data Files: Data files are used to train and evaluate models. You can upload your own data for training or use pre-existing datasets to create custom models.
+- Quotas: Quotas refer to usage limits for model deployment and inference. Each model has an associated quota, and you can adjust these quotas as needed to meet the demands of your application.
+- Content Filters: Content filters are used to ensure that responses generated by models are within acceptable limits. This is especially important to avoid inappropriate or offensive content in production applications.
 
-Da vontade de começar no Playground né. Mas o primeiro passo é clicar em Deployment.
+You feel like starting in the Playground, right? But the first step is to click on Deployment.
 
-![Captura de tela de 2024-04-16 18-34-24](https://github.com/pedropberger/tutorials/assets/98188778/51919801-3d69-473f-a46f-5c641d9ef763)
+![Screenshot of 2024-04-16 18-34-24](https://github.com/pedropberger/tutorials/assets/98188778/51919801-3d69-473f-a46f-5c641d9ef763)
 
-E pra quê começar pelo Deployment? Simples, sem modelo você não tem IA. O chatbot ou o que você quiser fazer vai precisar de um modelo para se basear (e consumir recursos).
+And why start with Deployment? Simple, without a model you don't have AI. The chatbot or whatever you want to do will need a model to base on (and consume resources).
 
-Gosto de enfatizar que o modelo é o motor carro. Seus créditos no Azure são o combustível. O Chatbot é só a lataria. Carro sem motor não anda.
+I like to emphasize that the model is the car engine. Your Azure credits are the fuel. The Chatbot is just the bodywork. Car without engine doesn't run.
 
-Para criar um, clique em "Create new deployment" e surgira uma tela com várias opções:
+To create one, click on "Create new deployment" and a screen with several options will appear:
 
-![Captura de tela de 2024-04-22 16-37-35](https://github.com/pedropberger/tutorials/assets/98188778/1c7d631c-a7e3-40c7-b4d2-b06399facb63)
+![Screenshot of 2024-04-22 16-37-35](https://github.com/pedropberger/tutorials/assets/98188778/1c7d631c-a7e3-40c7-b4d2-b06399facb63)
 
-Entendendo a tela acima e definindo os parâmetros:
+Understanding the screen above and defining the parameters:
 
-Select a model: Aqui você decide seu modelo. Vai ser uma IA Generativa? seleciona um GPT que te agrade. É imagem que você quer? DALL-E. Embbeding? Ada. Para manter a coerencia desse tutorial, selecione um GPT. Eu vou no mais barato, gpt-35-turbo. A ideia desse chatbot é só ler uma biblioteca de documentos e responder sobre ela. Não preciso de informações recentes ou capacidade de passar no vestibular. Mas cada um sabe do que precisa. Se quiser saber mais sobre qual modelo, [pesquisa nesse site que você encontra tudo](https://www.google.com).
+Select a model: Here you decide your model. Will it be a Generative AI? select a GPT that you like. Is it an image you want? DALL-E. Embedding? Ada. To keep the coherence of this tutorial, select a GPT. I'll go for the cheapest one, gpt-35-turbo. The idea of this chatbot is just to read a library of documents and answer about it. I don't need recent information or the ability to pass the entrance exam. But everyone knows what they need. If you want to know more about which model, [search this site and you'll find everything](https://www.google.com).
 
-Model version: Escolha a versão. Não da pra dizer como isso vai impactar. Escolha a que mais te agrade ou fique na padrão que não tem erro.
+Model version: Choose the version. It's hard to say how this will impact. Choose the one you like the most or stay in the standard that you can't go wrong.
 
-Deployment type: Standard, sempre Standard.
+Deployment type: Standard, always Standard.
 
-Deploymento name: Escolha um nome para o modelo. Você pode ter mais de um modelo do mesmo tipo, ou de tipos diferentes. O futuro a Deus pertence, então nomeie com sabedoria.
+Deployment name: Choose a name for the model. You can have more than one model of the same type, or of different types. The future belongs to God, so name wisely.
 
-Content filter: Por hora não da para selecionar nada além do defalt.
+Content filter: For now, you can't select anything other than the default.
 
-Tokens per Minute Rate Limit: Esse é importante. Aqui você restringe quantos tokens você poderá consumir no máximo por minuto. Eu recomendo deixar o mínimo razoável que você acha que irá utilizar e habilitar a cota dinâmica. Mas se você vai implantar vários modelos é importante pensar nos limites antes. Atualmente por Subscription você tem o limite de 240k tokens por minuto, e essa cota vale PARA TODOS MODELOS, ou seja, se você tem outra aplicação que consome tokens, é importante limitar ela para não impactar no seu chatbot. Você pode visualizar as cotas e seus limites na aba Quotas.
+Tokens per Minute Rate Limit: This is important. Here you restrict how many tokens you can consume at most per minute. I recommend leaving the minimum reasonable that you think you will use and enable the dynamic quota. But if you are going to deploy several models it is important to think about the limits before. Currently per Subscription you have the limit of 240k tokens per minute, and this quota is valid FOR ALL MODELS, that is, if you have another application that consumes tokens, it is important to limit it so as not to impact your chatbot. You can view the quotas and their limits in the Quotas tab.
 
-Pronto. Daí é só fazer o deploy e ver a tela abaixo.
+Ready. Then just do the deploy and see the screen below.
 
-Dica importante: como todo recurso Azure, você pode criar e apagar quantas vezes quiser, mas as cotas do modelo demoram 48 horas para dar um "purge". Então se você sai criando e apagando modelos, fique atendo as cotas disponibilizadas para cada modelo, para não ter que esperar um tempão para elas voltarem. Isso aconteceu comigo e a solução eu [achei aqui](https://learn.microsoft.com/en-us/azure/ai-services/recover-purge-resources?tabs=azure-portal#purge-a-deleted-resource).
+Important tip: like any Azure resource, you can create and delete as many times as you want, but the model's quotas take 48 hours to purge. So if you go out creating and deleting models, pay attention to the quotas provided for each model, so you don't have to wait a long time for them to return. This happened to me and the solution I [found here](https://learn.microsoft.com/en-us/azure/ai-services/recover-purge-resources?tabs=azure-portal#purge-a-deleted-resource).
 
-![Captura de tela de 2024-04-22 16-37-45](https://github.com/pedropberger/tutorials/assets/98188778/23840a85-a8f1-4c9d-80a5-03b91be3a508)
+![Screenshot of 2024-04-22 16-37-45](https://github.com/pedropberger/tutorials/assets/98188778/23840a85-a8f1-4c9d-80a5-03b91be3a508)
 
-Deploy feito meus amigos, vamos criar o chatbot.
+Deploy done my friends, let's create the chatbot.
 
-## Passo 3: Indexando os dados
 
-Obviamente, clique na barra lateral no segundo item, o "Chat". E seja bem vindo ao Chat Playground. Aqui você já pode conversar, testar parâmetros e se familiarizar com seu chat que já tem como motor o modelo que você fez deploy acima.
+## Step 3: Indexing the Data
 
-![Captura de tela de 2024-04-22 16-38-03](https://github.com/pedropberger/tutorials/assets/98188778/cb2d218c-b88d-4c50-9843-309e7f0d9621)
+Obviously, click on the second item in the sidebar, "Chat". And welcome to the Chat Playground. Here you can already chat, test parameters, and familiarize yourself with your chat that already has the model you deployed above as its engine.
 
-Nosso objetivo é um chatbot que lê arquivos, então vamos direto ao ponto. Clique em Add your data. E vamos adicionar seus textos.
+![Screenshot of 2024-04-22 16-38-03](https://github.com/pedropberger/tutorials/assets/98188778/cb2d218c-b88d-4c50-9843-309e7f0d9621)
 
-![Captura de tela de 2024-04-22 16-38-25](https://github.com/pedropberger/tutorials/assets/98188778/ada23fc3-62c1-4867-ab3d-12365cccf943)
+Our goal is a chatbot that reads files, so let's get straight to the point. Click on Add your data. And let's add your texts.
 
-Logo de cara você define o Data Source, e escolhe a opção de fazer upload dos seus arquivos. Você pode importar de outras opções, mas não vamos cobrir nesse tutorial.
+![Screenshot of 2024-04-22 16-38-25](https://github.com/pedropberger/tutorials/assets/98188778/ada23fc3-62c1-4867-ab3d-12365cccf943)
 
-![Captura de tela de 2024-04-22 16-38-50](https://github.com/pedropberger/tutorials/assets/98188778/57f191a6-9bae-4ce0-87e5-fed5c7fc77ed)
+Right off the bat, you define the Data Source, and choose the option to upload your files. You can import from other options, but we won't cover that in this tutorial.
 
-Em seguida você seleciona a Subscription, e depois seleciona o recurso de armazenamento Blob em que serão armazenados os arquivos. Se você não tem esse recurso é só clicar em "Create a new Azure Blob storage resource", seguir o fluxo e criar uma Storage Account. Lembrando que precisa estar na rede e região do recurso Azure OpenAI.
+![Screenshot of 2024-04-22 16-38-50](https://github.com/pedropberger/tutorials/assets/98188778/57f191a6-9bae-4ce0-87e5-fed5c7fc77ed)
 
-![Captura de tela de 2024-04-22 16-39-02](https://github.com/pedropberger/tutorials/assets/98188778/83731d18-458f-47e7-9fe7-8b6b8141a267)
+Next, you select the Subscription, and then select the Blob storage resource where the files will be stored. If you don't have this resource, just click on "Create a new Azure Blob storage resource", follow the flow, and create a Storage Account. Remember that it needs to be on the network and region of the Azure OpenAI resource.
 
-O proximo passo é a AI Search. Aqui você vai criar os Indexadores e Índices.
+![Screenshot of 2024-04-22 16-39-02](https://github.com/pedropberger/tutorials/assets/98188778/83731d18-458f-47e7-9fe7-8b6b8141a267)
 
-Os Indexadores e Índices são componentes essenciais no Azure OpenAI On Your Data, que permite que os desenvolvedores conectem, ingeram e baseiem seus dados corporativos para criar copilotos personalizados rapidamente. Vamos entender o que são esses componentes:
+The next step is AI Search. Here you will create the Indexers and Indexes.
 
-Indexadores:
-- Os indexadores são responsáveis por processar os dados que o serviço monitora. Quando todos os dados são processados, o OpenAI do Azure dispara o segundo indexador.
-- Esse segundo indexador armazena os dados processados em um serviço da Pesquisa de IA do Azure.
-- Os indexadores são fundamentais para a busca eficiente e a recuperação de informações relevantes a partir dos dados corporativos.
+Indexers and Indexes are essential components in Azure OpenAI On Your Data, which allows developers to connect, ingest, and base their corporate data to quickly create custom copilots. Let's understand what these components are:
 
-Índices:
-- Os índices são estruturas de dados que organizam e otimizam o acesso aos dados.
-- Eles permitem que o sistema execute consultas de maneira eficiente, acelerando a busca e a recuperação de informações.
-- No contexto do Azure OpenAI, os índices são usados para melhorar a precisão das respostas do modelo e agilizar a interação com os dados.
+Indexers:
+- Indexers are responsible for processing the data that the service monitors. When all data is processed, Azure OpenAI triggers the second indexer.
+- This second indexer stores the processed data in an Azure AI Search service.
+- Indexers are fundamental for efficient search and retrieval of relevant information from corporate data.
 
-Em resumo, os indexadores processam os dados e os armazenam em índices otimizados para facilitar a busca e a análise. Esses componentes trabalham juntos para permitir que o Azure OpenAI On Your Data ofereça respostas mais precisas e eficientes com base nos dados corporativos.
+Indexes:
+- Indexes are data structures that organize and optimize access to data.
+- They allow the system to execute queries efficiently, speeding up the search and retrieval of information.
+- In the context of Azure OpenAI, indexes are used to improve the accuracy of the model's responses and speed up interaction with the data.
 
-Clique para criar um Indexador e vá para a seguinte tela:
+In summary, indexers process the data and store it in optimized indexes to facilitate search and analysis. These components work together to allow Azure OpenAI On Your Data to offer more accurate and efficient responses based on corporate data.
 
-![Captura de tela de 2024-04-22 16-41-38](https://github.com/pedropberger/tutorials/assets/98188778/ea9a8ebd-4b8f-4dbf-905d-9079950fb898)
+Click to create an Indexer and go to the following screen:
 
-Aqui você seleciona suas opções e da um nome para o serviço de pesquisa. Selecione a região certa. É opcional (e recomendável) alterar o Pricing tier de acordo com a quantidade de dados que você planeja indexar. Porém esteja ciente que a opção "Free" não funcionará com o chatbot. Pelo menos não hoje. Na primeira vez que fiz, só aceitava a Standard que era cara pra caramba. Agora já da pra fazer com opções menos onerosas.
+![Screenshot of 2024-04-22 16-41-38](https://github.com/pedropberger/tutorials/assets/98188778/ea9a8ebd-4b8f-4dbf-905d-9079950fb898)
 
-![Captura de tela de 2024-04-22 16-41-55](https://github.com/pedropberger/tutorials/assets/98188778/6d5bf62c-53fe-4102-8751-d9d5bef9d886)
+Here you select your options and give a name to the search service. Select the right region. It is optional (and recommended) to change the Pricing tier according to the amount of data you plan to index. But be aware that the "Free" option will not work with the chatbot. At least not today. The first time I did it, it only accepted the Standard which was very expensive. Now you can do it with less burdensome options.
 
-Defina a quantidade de réplicas e partições. Se você não entende ou não precisa de escalabilidade, pule essa parte, ajuste a Rede, as Tags e seja feliz após o Review+Create
+![Screenshot of 2024-04-22 16-41-55](https://github.com/pedropberger/tutorials/assets/98188778/6d5bf62c-53fe-4102-8751-d9d5bef9d886)
 
-![Captura de tela de 2024-04-22 16-42-25](https://github.com/pedropberger/tutorials/assets/98188778/abe99d57-7f94-4e39-83bb-7109d43fd0e2)
+Define the number of replicas and partitions. If you don't understand or don't need scalability, skip this part, adjust the Network, the Tags, and be happy after Review+Create
 
-Se a tela abaixo aparecer, clique em Turn on CORS para continuar. A explicação está no warning.
+![Screenshot of 2024-04-22 16-42-25](https://github.com/pedropberger/tutorials/assets/98188778/abe99d57-7f94-4e39-83bb-7109d43fd0e2)
 
-![Captura de tela de 2024-04-22 16-40-55](https://github.com/pedropberger/tutorials/assets/98188778/1f9d32da-49ac-440c-9106-88a5871c5651)
+If the screen below appears, click on Turn on CORS to continue. The explanation is in the warning.
 
-Coloque um nome para o Índice e depois é só criar seguir o baile.
+![Screenshot of 2024-04-22 16-40-55](https://github.com/pedropberger/tutorials/assets/98188778/1f9d32da-49ac-440c-9106-88a5871c5651)
 
-![Captura de tela de 2024-04-22 16-56-12](https://github.com/pedropberger/tutorials/assets/98188778/c0cf0ed9-1338-498a-be8d-9052913e62b3)
+Put a name for the Index and then just create and follow the dance.
 
-Na tela em sequência você sobe seus arquivos. É basicamente um Drag and drop. Só aceita arquivos de texto nos formatos apresentados. Faça o upload e dê sequência.
+![Screenshot of 2024-04-22 16-56-12](https://github.com/pedropberger/tutorials/assets/98188778/c0cf0ed9-1338-498a-be8d-9052913e62b3)
 
-![Captura de tela de 2024-04-22 16-56-25](https://github.com/pedropberger/tutorials/assets/98188778/8ad16fab-3456-4a52-bdef-a75ad862d800)
+In the following screen, you upload your files. It's basically a drag and drop. It only accepts text files in the formats presented. Upload and proceed.
 
-Na tela abaixo você administra como seus dados serão usados. Não da para selecionar nada além de Keyword. Porém você pode alterar o Chunk Size.
+![Screenshot of 2024-04-22 16-56-25](https://github.com/pedropberger/tutorials/assets/98188778/8ad16fab-3456-4a52-bdef-a75ad862d800)
 
-Da para escrever uma dissertação de mestrado sobre Chunk Size. Na minha experiência, deixo as seguintes dicas:
+In the screen below you manage how your data will be used. You can't select anything other than Keyword. But you can change the Chunk Size.
 
-- Você tem arquivos pequenos e de poucas páginas: recomendo size de 256 ou 512.
-- As respostas serão relacionadas a trechos pequenos dos documentos: 256 ou 512.
-- Arquivos de texto grandes: 1024 ou 1536.
-- Quer respostas que incorporem diversas partes do texto ou resumam páginas inteiras: 1024 ou 1536.
+You can write a master's dissertation about Chunk Size. In my experience, I leave the following tips:
 
-Na dúvida vai em 1024 que dá bom também.
+- You have small files and few pages: I recommend size 256 or 512.
+- The answers will be related to small sections of the documents: 256 or 512.
+- Large text files: 1024 or 1536.
+- Want answers that incorporate various parts of the text or summarize entire pages: 1024 or 1536.
 
-É engraçado que existe muita subjetividade, e as melhores referencias sobre o tema dizem que você deve ajustar conforme o seu "feeling" e ir refinando com base respostas que você tem recebido e no feedback dos usuários. Não temos ainda funções de otimização ou que automatizem o melhor ajuste.
+When in doubt, go to 1024 that it's good too.
 
-![Captura de tela de 2024-04-22 17-00-27](https://github.com/pedropberger/tutorials/assets/98188778/4b468949-f24e-4ce7-8367-feab35ec46e8)
+It's funny that there is a lot of subjectivity, and the best references on the subject say that you should adjust according to your "feeling" and refine based on the responses you have received and user feedback. We don't yet have optimization functions or that automate the best fit.
 
-De sequência e aí é só aguardar o processo de ingestão dos seus arquivos. Eles serão pré-processados e indexados um a um. Se der algum problema, é só refazer esse passo. Os problemas mais comuns são arquivos em formatos não compatíveis, índice já existente de outros deploys e problemas para acessar sua Storage Account.
+![Screenshot of 2024-04-22 17-00-27](https://github.com/pedropberger/tutorials/assets/98188778/4b468949-f24e-4ce7-8367-feab35ec46e8)
 
-![Captura de tela de 2024-04-22 17-00-40](https://github.com/pedropberger/tutorials/assets/98188778/e0e0480d-64c9-4a23-9e29-0c4447f04e06)
+Proceed and then just wait for the ingestion process of your files. They will be pre-processed and indexed one by one. If there is any problem, just redo this step. The most common problems are files in incompatible formats, existing index from other deploys, and problems accessing your Storage Account.
 
-E pronto, agora só falta refinar os parâmetros.
+![Screenshot of 2024-04-22 17-00-40](https://github.com/pedropberger/tutorials/assets/98188778/e0e0480d-64c9-4a23-9e29-0c4447f04e06)
 
-# Etapa 4: O Chatbot
+And that's it, now all that's left is to refine the parameters.
 
-Agora já temos arquivos indexados e vinculados a nosso recurso Azure OpenAI. Chegou a hora de ajustar os detalhes sobre o prompt e os parâmetros. A qualquer momento durante essa etapa você já pode ir testando o chatbot na tela principal, que ele dará as respostas conforme os parâmetros ajustados em tempo real.
 
-O primeiro passo antes de tudo é fazer os ajustes em como seu chatbot usará os dados. Para isso, clique em "Advanced settings" conforme na tela abaixo e serão apresentadas 3 opções.
+# Step 4: The Chatbot
 
-![Captura de tela de 2024-04-22 17-18-29](https://github.com/pedropberger/tutorials/assets/98188778/b4dfc65e-e018-4f64-be6d-4083b300663c)
+Now we already have indexed files linked to our Azure OpenAI resource. It's time to adjust the details about the prompt and the parameters. At any time during this step, you can already test the chatbot on the main screen, which will give the answers according to the adjusted parameters in real-time.
 
-A primeira caixa de seleção é onde você define se o chatbot poderá responder questões de qualquer tópico (um ChatGTP raiz) além das relacionadas aos documentos. Eu sugiro fortemente em deixar ela marcada se seu interesse é de fato criar um chatbot que responda perguntas sobre os documentos indexados. Existem parâmetros para limitar o quanto ele pode sair do escopo dos documentos, mas todos meus testes com usuários onde não deixei essa caixinha marcada foram frustrantes. Usuários dificilmente seguem um manual e as vezes até se es
+The first step before anything else is to make adjustments to how your chatbot will use the data. For this, click on "Advanced settings" as shown in the screen below and 3 options will be presented.
 
-O segundo passo é definir a "role" do seu chatbot. Vem algumas pré configuradas para você visualizar e testar. Mas como isso vai para produção, você deve setar como Default (ou deixar em branco) e setar a System Message, conforme na tela abaixo. Na System Message você diz para seu chatbot o que ele é e como deve responder. Quem já estudou o básico do básico do prompt conhece a clássica frase "Fale como um especialista" antes de conversar com o GPT. Aqui a função vai ser semelhante, mas você diz em que ele será especialista. No nosso caso colocamos "Fale como um funcionário do RH. Sempre responda em Português Brasileiro". Depois de inserir a informação é só clicar em salvar.
+![Screenshot of 2024-04-22 17-18-29](https://github.com/pedropberger/tutorials/assets/98188778/b4dfc65e-e018-4f64-be6d-4083b300663c)
 
-![Captura de tela de 2024-04-22 17-18-21](https://github.com/pedropberger/tutorials/assets/98188778/7b80b2eb-225a-4ebd-a2a6-83cf7a4930a2)
+The first checkbox is where you define whether the chatbot will be able to answer questions on any topic (a root ChatGPT) in addition to those related to the documents. I strongly suggest leaving it checked if your interest is indeed to create a chatbot that answers questions about the indexed documents. There are parameters to limit how much it can go out of the scope of the documents, but all my tests with users where I didn't leave this box checked were frustrating. Users hardly follow a manual and sometimes even forget
 
-Na sessão "Configuration" você pode selecionar o Modelo que você fez o deploy e selecionar a quantidade de mensagens que serão levadas em consideração no prompt. Lembrando que serão consideradas no total de tokens.
+The second step is to define the "role" of your chatbot. Some are pre-configured for you to view and test. But as this goes into production, you should set it as Default (or leave it blank) and set the System Message, as shown in the screen below. In the System Message, you tell your chatbot what it is and how it should respond. Those who have studied the very basics of the prompt know the classic phrase "Speak like an expert" before chatting with the GPT. Here the function will be similar, but you say in what it will be an expert. In our case, we put "Speak like an HR employee. Always answer in Brazilian Portuguese". After entering the information, just click save.
 
-![Captura de tela de 2024-04-22 17-18-41](https://github.com/pedropberger/tutorials/assets/98188778/99d20512-a980-4d81-8ab7-67cdd7ea0dc1)
+![Screenshot of 2024-04-22 17-18-21](https://github.com/pedropberger/tutorials/assets/98188778/7b80b2eb-225a-4ebd-a2a6-83cf7a4930a2)
 
-Na sessão de parâmetros é onde você pode brincar com os resultados da geração do texto. Rapidamente o que cada um significa:
+In the "Configuration" session, you can select the Model that you deployed and select the number of messages that will be taken into account in the prompt. Remembering that they will be considered in the total of tokens.
 
-Temperatura:
-- A temperatura controla a aleatoriedade das respostas geradas pelo modelo.
-- Um valor de temperatura mais alto (por exemplo, 0,8-1,0) torna as respostas mais diversificadas e criativas, pois permite que o modelo explore diferentes possibilidades.
-- Por outro lado, um valor mais baixo (por exemplo, 0,2-0,5) torna as respostas mais focadas e deterministas, sendo útil para consultas baseadas em fatos ou respostas precisas.
+![Screenshot of 2024-04-22 17-18-41](https://github.com/pedropberger/tutorials/assets/98188778/99d20512-a980-4d81-8ab7-67cdd7ea0dc1)
+
+In the parameters session is where you can play with the results of the text generation. Quickly what each one means:
+
+Temperature:
+- The temperature controls the randomness of the responses generated by the model.
+- A higher temperature value (for example, 0.8-1.0) makes the responses more diverse and creative, as it allows the model to explore different possibilities.
+- On the other hand, a lower value (for example, 0.2-0.5) makes the responses more focused and deterministic, being useful for fact-based queries or precise responses.
 
 Top P:
-- O parâmetro Top P controla a diversidade do resultado gerado, limitando a distribuição de probabilidade das palavras.
-- Quando o valor Top P é definido como 0,4, o modelo considera apenas 40% das palavras ou frases mais prováveis.
-- Valores mais altos (por exemplo, 0,9-1,0) garantem uma gama mais ampla de opções, resultando em respostas mais diversificadas.
-- Valores mais baixos (por exemplo, 0,1-0,5) limitam as opções às mais prováveis, tornando as respostas mais focadas e coerentes.
+- The Top P parameter controls the diversity of the result generated, limiting the probability distribution of words.
+- When the Top P value is set to 0.4, the model considers only 40% of the most likely words or phrases.
+- Higher values (for example, 0.9-1.0) ensure a wider range of options, resulting in more diverse responses.
+- Lower values (for example, 0.1-0.5) limit the options to the most likely ones, making the responses more focused and coherent.
 
 Frequency Penalty:
-- É uma penalização aplicada ao modelo para evitar que ele repita palavras com muita frequência.
-- Quando configurado, o modelo é incentivado a variar suas escolhas de palavras, tornando as respostas mais naturais e menos repetitivas.
-- É especialmente útil para evitar respostas excessivamente monótonas ou redundantes.
+- It is a penalty applied to the model to prevent it from repeating words too often.
+- When configured, the model is encouraged to vary its word choices, making the responses more natural and less repetitive.
+- It is especially useful to avoid overly monotonous or redundant responses.
 
 Presence Penalty:
-- O Presence Penalty penaliza o modelo quando ele gera palavras que não estão presentes no contexto fornecido.
-- Isso ajuda a evitar respostas que incluam informações não relevantes ou que não estejam diretamente relacionadas à pergunta.
-- A presença de penalização incentiva o modelo a se ater ao contexto e produzir respostas mais coesas e pertinentes.
+- The Presence Penalty penalizes the model when it generates words that are not present in the provided context.
+- This helps to avoid responses that include irrelevant information or that are not directly related to the question.
+- The presence of penalty encourages the model to stick to the context and produce more cohesive and relevant responses.
 
-Eu, pessoalmente, para um chatbot que tem que ser restrito e conservador, deixo a temperatura no talo, top P baixo e as penalidades no 0.
+I, personally, for a chatbot that has to be restricted and conservative, leave the temperature at full, top P low, and penalties at 0.
 
-Terminando as configurações, é só fazer o deploy.
+After finishing the settings, just do the deploy.
 
-![Captura de tela de 2024-04-22 17-18-51](https://github.com/pedropberger/tutorials/assets/98188778/876eea6a-140e-488a-83a4-fc424d4ed065)
+![Screenshot of 2024-04-22 17-18-51](https://github.com/pedropberger/tutorials/assets/98188778/876eea6a-140e-488a-83a4-fc424d4ed065)
 
-Aí surgem duas opções. Web app é a ideia desse tutorial e a que vamos selecionar. Essa opção cria uma interface genérica para seu chatbot (que no futuro pretendo listar como editar) que pode ser distribuida interna e externamente. Por padrão ela fica restrita aos seus usuários registrados no AD.
+Then two options appear. Web app is the idea of this tutorial and the one we will select. This option creates a generic interface for your chatbot (which in the future I intend to list how to edit) that can be distributed internally and externally. By default, it is restricted to your users registered in AD.
 
-Fazer o deploy no copilot studio vai te levar a outro serviço, que é um universo a parte.
+Deploying in the copilot studio will take you to another service, which is a universe apart.
 
-![Captura de tela de 2024-04-22 17-19-19](https://github.com/pedropberger/tutorials/assets/98188778/fe162f61-f757-4bee-8113-919ca7e3f562)
+![Screenshot of 2024-04-22 17-19-19](https://github.com/pedropberger/tutorials/assets/98188778/fe162f61-f757-4bee-8113-919ca7e3f562)
 
-Após selecionar você vai para tela abaixo:
+After selecting you will go to the screen below:
 
-![Captura de tela de 2024-04-22 17-20-17](https://github.com/pedropberger/tutorials/assets/98188778/8bd333f6-d41c-4726-bd9a-623d73b469ec)
+![Screenshot of 2024-04-22 17-20-17](https://github.com/pedropberger/tutorials/assets/98188778/8bd333f6-d41c-4726-bd9a-623d73b469ec)
 
-Aqui você cria seu aplicativo, ou, caso já tenha criado, pode fazer um upgrade no aplicativo já existente. Dá para habilitar o salvamento do chat se você achar importante, mas aí terá que criar um serviço CosmosDB.
+Here you create your application, or, if you have already created, you can upgrade the existing application. You can enable chat saving if you think it's important, but then you will have to create a CosmosDB service.
 
-![Captura de tela de 2024-04-22 17-26-05](https://github.com/pedropberger/tutorials/assets/98188778/d11bee24-2132-4651-b6da-184d26194fd1)
+![Screenshot of 2024-04-22 17-26-05](https://github.com/pedropberger/tutorials/assets/98188778/d11bee24-2132-4651-b6da-184d26194fd1)
 
-Feito isso é só esperar o deploy (que é meio demorado) e então voila:
+Once this is done, just wait for the deploy (which is a bit slow) and then voila:
 
-![Captura de tela de 2024-04-22 17-42-16](https://github.com/pedropberger/tutorials/assets/98188778/c427a7d1-7e8c-4bf5-8d88-a16bc264f058)
+![Screenshot of 2024-04-22 17-42-16](https://github.com/pedropberger/tutorials/assets/98188778/c427a7d1-7e8c-4bf5-8d88-a16bc264f058)
 
-Chatbot operando.
+Chatbot operating.
