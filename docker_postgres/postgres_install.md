@@ -1,3 +1,4 @@
+#
 Seja para rodar sua aplicação de forma isolada, seja para poder errar, seja para evitar instalar um monte de coisa no seu computador que não conseguirá gerir depois, as vantagens de rodar o seu servidor Postgres em um container docker são muitas. Mas é bem fácil de errar e ter dor de cabeça na hora de implementar, eu mesmo na primeira vez que me propus a rodar esse conteiner achava que seria simples como instalar o SQL Server no seu PC ou na nuvem do Azure, mas não foi. O lado bom é que já venci esse problema e deixei aqui o docker-compose prontinho para quem quiser rodar.
 
 # Pré requisitos para esse tutorial
