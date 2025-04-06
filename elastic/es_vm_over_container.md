@@ -48,10 +48,8 @@ I’m not saying containers are bad for Elasticsearch. For development or quick 
 
 But for me, in production, where Elasticsearch is critical infrastructure—I keep it simple, stable, and under control. And that means giving each node its own VM and letting it do what it does best.
 
+By the way, here you can follow my step by step to deploy a Kubernetes micro cluster using VMs with basic security.
+
 ---
 
 If you're curious about how I set up my VMs, tune Elasticsearch settings, or monitor the cluster, let me know—I’ve got notes, scripts, and scars to share.
-
----
-
-Let me know if you want to personalize it with your actual setup (like AlmaLinux nodes, no certs, etc.) or make it more humorous, technical, or formal.
