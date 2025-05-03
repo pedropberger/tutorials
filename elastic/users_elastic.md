@@ -12,7 +12,7 @@ Here's a rundown of how I tackled it, hoping it helps you out too!
 
 **Prerequisites:**
 
-1.  **Elasticsearch Cluster Running:** Obviously.
+1.  **Elasticsearch Cluster Running:** Obviously, if you don`t have, but want one [click here](https://github.com/pedropberger/tutorials/blob/main/elastic/es_basic_security_cluster.md).
 2.  **Security Enabled:** This whole user/role thing only works if Elasticsearch security features are turned on. If you haven't done this, it usually involves adding `xpack.security.enabled: true` to your `elasticsearch.yml` and running a setup command. Check the official docs, as the exact steps can vary. You'll get a password for the built-in `elastic` superuser during this process – guard it well!
 3.  **Credentials:** You'll need the `elastic` user's password (or another user with sufficient privileges, like `superuser`) to manage users and roles.
 4.  **Tools:** `curl` installed, and Python (ideally 3.x) with the `requests` library (`pip install requests`).
