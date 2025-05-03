@@ -10,6 +10,9 @@ Here's a rundown of how I tackled it, hoping it helps you out too!
 
 **Disclaimer:** Always be careful with security configurations! Test in a non-production environment first. And please, use strong passwords and manage credentials securely (like using environment variables or secrets management, not hardcoding!). For clarity, I'm putting placeholders like `YOUR_ELASTIC_PASSWORD` directly in the examples here. Don't do that in production!
 
+
+![pixel art image of user management in a system](https://github.com/user-attachments/assets/ed491cc5-4379-4f93-ba5e-755107ba21c2)
+
 **Prerequisites:**
 
 1.  **Elasticsearch Cluster Running:** Obviously, if you don`t have, but want one [click here](https://github.com/pedropberger/tutorials/blob/main/elastic/es_basic_security_cluster.md).
