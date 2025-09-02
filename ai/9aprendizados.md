@@ -1,8 +1,6 @@
-# 9 lições aprendidas após um 9 meses implantando agentes de IA em prod
+# 9 lições aprendidas após um 12 meses implantando agentes de IA em prod
 
-A um mês atrás foi o lançamento do programa AMPL.IA no MPES, fruto dos últimos 9 meses de trabalho, que foram uma mudança bem interessante de direcionamento na minha carreira.
-
-Esse ultimo ano eu estive dedicado quase que exclusivamente em todas as etapas do desenvolvimento de agentes de IA, da arquitetura dos serviços, passando pela prototipagem e chegando até a infraestrutura de produção. Saí da zona de conforto dos pipelines de dados, e aprendi demais. Quando a gente olha pra trás, um caminho curvo às vezes parece uma reta, mas na verdade foram muitas derrapadas durante todo o processo. Queria aproveitar para compartilhar 9 aprendizados que tive (a partir de umas 90 derrapadas), e espero que ajude quem está querendo se aventurar nesse mundo novo da criação de Agentes de IA com IA Generativa.
+Esse ultimo ano eu estive dedicado quase que exclusivamente em todas as etapas do desenvolvimento e implantação em produção de agentes de IA, da arquitetura dos serviços, passando pela prototipagem e chegando até a infraestrutura de produção. Saí da zona de conforto dos pipelines de dados, e aprendi demais. Quando a gente olha pra trás, um caminho curvo às vezes parece uma reta, mas na verdade foram muitas derrapadas durante todo o processo. Queria aproveitar para compartilhar 9 aprendizados que tive nesses 12 meses (a partir de umas 90 derrapadas), e espero que ajude quem está querendo se aventurar nesse mundo novo da criação de Agentes de IA com IA Generativa.
 
 1 - Foque nas dores
 
