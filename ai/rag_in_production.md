@@ -6,7 +6,7 @@ Been there! I spent about a year transitioning from a more traditional Data Scie
 
 **First Off: What's Different About Production?**
 
-Your Jupyter notebook or simple `app.py` script is great for experimentation. Production is different beast altogether. We care about:
+A Jupyter notebook or simple `app.py` script is great for experimentation. Production is different beast altogether. We care about:
 
 1.  **Reliability:** It needs to *stay up*. No crashing every 5 minutes.
 2.  **Scalability:** It needs to handle multiple users at once without grinding to a halt. ~1000 users isn't Google-scale, but it's definitely beyond "runs on my laptop."
@@ -69,7 +69,7 @@ Okay, you've picked your deployment style (probably API). Now, what do you *need
         *   *Options:* Postgres, MySQL (Relational); MongoDB, DynamoDB (NoSQL). Pick based on your data structure needs. Managed versions (AWS RDS, Cloud SQL, Azure SQL DB, Atlas) are highly recommended.
         *   *Considerations:* Schema design, query patterns, backup/restore strategy.
 
-    *My Journey:* Postgres (beautful and relational =D when used with PG Vector + PG AI) => Mongodb (nosql necessity in some project) > Elasticsearch (fast, reliable, simple to scale, vector+BM25, RESTful API EASY!, I fell in love with it, hoping it's not blind love)
+    *My Journey:* Postgres (beautful and relational =D when used with PG Vector + PG AI) => Mongodb (nosql necessity in some projects) => Elasticsearch (fast, reliable, simple to scale, vector+BM25, RESTful API EASY!, I fell in love with it, hoping it's not blind love)
 
 3.  **Code Execution Environment:**
     *   Make sure your production environment matches your development one *closely*. Use `requirements.txt` or `pyproject.toml` (with Poetry/PDM) to pin dependencies. Docker helps enforce this.
