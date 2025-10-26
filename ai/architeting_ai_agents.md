@@ -1,4 +1,4 @@
-## Architecting AI Agents in Production: From Prompt to Response at Scale
+## Architecting AI Agents in Production without Frameworks: From Prompt to Response at Scale
 
 Building AI agents, especially those leveraging Retrieval Augmented Generation (RAG) and Large Language Models (LLMs), has become remarkably accessible. Kits from OpenAI, Azure, Google, and others make it relatively straightforward to create a Proof of Concept (PoC), plug in your data, and let your colleagues test it out. However, my journey from these exciting PoCs to robust, production-ready systems revealed a significant gap. Scaling these agents, integrating them with existing enterprise systems, ensuring continuous access to fresh data, and implementing personalized, secure, and authenticated access is far more complex than it initially appears.
 
